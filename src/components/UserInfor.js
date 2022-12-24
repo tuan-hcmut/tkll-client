@@ -4,6 +4,7 @@ import { BsFillKeyFill } from "react-icons/bs";
 import { FaEthereum } from "react-icons/fa";
 import { SlEnergy } from "react-icons/sl";
 import { IoMdAddCircle } from "react-icons/io";
+import { SlNote } from "react-icons/sl";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -26,13 +27,17 @@ const UserInfor = (props) => {
           </div>
 
           <div className="flex gap-8 text-2xl font-medium">
-            <FaEthereum className="text-yellow-700 text-4xl" />:<div>{userInfor.ethRemaining || "Undefined"}</div>
+            <FaEthereum className="text-yellow-700 text-4xl" />:<div>{userInfor.ethRemaining || "0"}</div>
           </div>
 
           <div className="flex gap-8 text-2xl font-medium">
             <SlEnergy className="text-yellow-700 text-4xl" />:
             <div>
-              {!userInfor.energyRemaining ? "Undefined" : <span className="text-red-700 font-semibold text-3xl">{userInfor.energyRemaining}</span>}
+              {!userInfor.energyRemaining ? (
+                <span className="text-red-700 font-semibold text-3xl">Out of energy!!!</span>
+              ) : (
+                <span className="text-red-700 font-semibold text-3xl">{userInfor.energyRemaining}</span>
+              )}
             </div>
           </div>
         </div>
@@ -40,7 +45,7 @@ const UserInfor = (props) => {
           <div className="w-[100%] flex flex-col gap-8">
             <div className="flex gap-2 text-3xl text-color-blue font-semibold items-center">
               <IoMdAddCircle />
-              <h1>Add Product</h1>
+              <h1>Add Product:</h1>
             </div>
             <Box
               component="form"
@@ -87,6 +92,22 @@ const UserInfor = (props) => {
                 </Button>
               </div>
             </Box>
+          </div>
+          <div className="w-[100%] flex justify-start mt-[2rem]">
+            <div className="flex items-center gap-4 text-3xl text-color-blue font-semibold">
+              <SlNote /> Note:
+            </div>
+          </div>
+          <div className="flex w-[100%] justify-center mt-4 text-yellow-700 font-semibold text-3xl">
+            <div className="flex gap-4">
+              <div className="flex gap-2">
+                1<FaEthereum />
+              </div>
+              <div>=</div>
+              <div className="flex gap-2">
+                50 <SlEnergy />
+              </div>
+            </div>
           </div>
         </div>
       </div>

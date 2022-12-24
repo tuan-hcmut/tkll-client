@@ -9,7 +9,7 @@ const loadBlockchainData = async () => {
   const userData = {
     account: accounts[0],
     ethRemaining: (ethRemaining / 1000000000000000000).toFixed(2),
-    energyRemaining: 20,
+    energyRemaining: 0,
   };
 
   const networkId = await web3.eth.net.getId();
@@ -24,9 +24,14 @@ const loadBlockchainData = async () => {
     };
 
     // Load products
-    let products;
-    for (var i = 1; i <= productCount; i++) {
-      products = await marketplace.methods.products(i).call();
+    let products = [];
+    for (var i = productCount; i >= 1; i--) {
+      const product = await marketplace.methods.products(i).call();
+      products.push(product);
+    }
+
+    while (products.length > 13) {
+      products.pop();
     }
 
     return { userData, market, products };

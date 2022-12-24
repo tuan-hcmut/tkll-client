@@ -29,10 +29,13 @@ const App = () => {
 
   useEffect(() => {
     socket.on("out-of-energy", (data) => {
-      console.log("out-of-energy");
+      console.log(data);
+      // toast.error("Out of energy. Please buy energy!!!!");
+      setUserInfor(data);
     });
 
     socket.on("current-user", (data) => {
+      console.log(data);
       setUserInfor(data);
     });
 
@@ -51,7 +54,7 @@ const App = () => {
       socket.emit("data-register", userData);
 
       setProducts({
-        products: [products],
+        products: [...products],
       });
 
       setMarket({
@@ -60,7 +63,6 @@ const App = () => {
       });
 
       localStorage.setItem("id", userData.account.toString());
-      // tạo thêm socket để nhận biết là user đăng nhập hay chưa
     };
 
     loadWeb3();
@@ -77,9 +79,8 @@ const App = () => {
       .once("receipt", async (receipt) => {
         toast.success(`You have been created product success!!!`);
         const { market, products } = await loadBlockchainData();
-
         setProducts({
-          products: [products],
+          products: [...products],
         });
 
         setMarket({
@@ -104,9 +105,9 @@ const App = () => {
       .send({ from: userInfor.account, value: price })
       .once("receipt", async (receipt) => {
         toast.success(`Buy success!!!`);
-        const { userData, market, products } = await loadBlockchainData();
+        const { market, products } = await loadBlockchainData();
         setProducts({
-          products: [products],
+          products: [...products],
         });
 
         setMarket({
@@ -119,7 +120,7 @@ const App = () => {
         });
 
         socket.emit("buy-more-energy", {
-          energy: 100,
+          energy: (parseInt(price) / 1000000000000000000) * 50,
           account: localStorage.getItem("id"),
           eth: price,
         });
